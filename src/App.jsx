@@ -1,8 +1,10 @@
+import { Home } from "./components/Home";
+
 function App() {
   return (
-    <>
-      <h1>COUNTRY QUIZ APP</h1>
-    </>
+    <div className="container w-4/5 m-auto">
+      <Home />
+    </div>
   );
 }
 
