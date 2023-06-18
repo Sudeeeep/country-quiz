@@ -8,6 +8,8 @@ export const CapitalsQuiz = () => {
   const [options, setOptions] = useState([]);
   // const [optionSelected, setOptionSelected] = useState(false);
 
+  const optionAlphabets = ["A", "B", "C", "D"];
+
   useEffect(() => {
     axios
       .get("https://restcountries.com/v3.1/all?fields=name,capital")
@@ -43,7 +45,7 @@ export const CapitalsQuiz = () => {
               className="border-2 border-[#6066D0] text-[#6066D0] font-medium px-2 py-1 rounded-lg transition hover:bg-[#F9A826] hover:border-white hover:text-white"
             >
               <div className="flex gap-10 items-center">
-                <span className="sm:text-lg">A</span>
+                <span className="sm:text-lg">{optionAlphabets[index]}</span>
                 <span className="sm:text-md font-bold">{option}</span>
               </div>
             </button>

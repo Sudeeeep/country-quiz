@@ -7,6 +7,8 @@ export const FlagsQuiz = () => {
   const [countries, setCountries] = useState([]);
   const [flag, setFlag] = useState("");
 
+  const optionAlphabets = ["A", "B", "C", "D"];
+
   useEffect(() => {
     axios
       .get("https://restcountries.com/v3.1/all?fields=name,flags")
@@ -19,8 +21,6 @@ export const FlagsQuiz = () => {
         setCountries(countries.concat(data[random].name.common, randomOptions));
         setFlag(data[random].flags.png);
       });
-
-    console.log(countries, flag);
   }, []);
 
   return (
@@ -47,7 +47,7 @@ export const FlagsQuiz = () => {
               className="border-2 border-[#6066D0] text-[#6066D0] font-medium px-2 py-1 rounded-lg transition hover:bg-[#F9A826] hover:border-white hover:text-white"
             >
               <div className="flex gap-10 items-center">
-                <span className="sm:text-lg">A</span>
+                <span className="sm:text-lg">{optionAlphabets[index]}</span>
                 <span className="sm:text-md font-bold">{country}</span>
               </div>
             </button>
