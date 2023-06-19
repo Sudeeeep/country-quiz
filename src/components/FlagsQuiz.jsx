@@ -9,6 +9,12 @@ export const FlagsQuiz = ({
   setNextQuestion,
   optionSelected,
   setOptionSelected,
+  count,
+  setCount,
+  setResultScreen,
+  gameOver,
+  setGameOver,
+  setFlagsScreen,
 }) => {
   const [countries, setCountries] = useState([]);
   const [correctCountry, setCorrectCountry] = useState("");
@@ -47,6 +53,7 @@ export const FlagsQuiz = ({
         "hover:bg-[#F9A826]",
         "hover:bg-[#60BF88]"
       );
+      setCount(() => count++);
     } else {
       console.log("incorrect");
       e.currentTarget.classList.add("bg-[#EA8282]");
@@ -62,20 +69,26 @@ export const FlagsQuiz = ({
         "hover:bg-[#F9A826]",
         "hover:bg-[#60BF88]"
       );
+      setGameOver(true);
     }
   };
 
   const handleNextQuestion = () => {
-    setNextQuestion(true);
-    setCountries([]);
-    setFlag();
-    if (nextQuestion === true) {
-      setNextQuestion(false);
+    if (gameOver) {
+      setResultScreen(true);
+      setFlagsScreen(false);
+    } else {
+      setNextQuestion(true);
+      setCountries([]);
+      setFlag();
+      if (nextQuestion === true) {
+        setNextQuestion(false);
+      }
     }
   };
 
   return (
-    <div className="flex flex-col gap-2 relative max-w-md m-auto mt-10 pt-10">
+    <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
       <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
         COUNTRY QUIZ
       </h1>
@@ -126,4 +139,10 @@ FlagsQuiz.propTypes = {
   setNextQuestion: propTypes.func,
   optionSelected: propTypes.bool,
   setOptionSelected: propTypes.func,
+  count: propTypes.number,
+  setCount: propTypes.func,
+  setResultScreen: propTypes.func,
+  gameOver: propTypes.bool,
+  setGameOver: propTypes.func,
+  setFlagsScreen: propTypes.func,
 };
