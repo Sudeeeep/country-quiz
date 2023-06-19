@@ -46,18 +46,15 @@ export const CapitalsQuiz = ({
     setOptionSelected(true);
     e.currentTarget.classList.add("text-white");
     e.currentTarget.classList.add("border-white");
-    console.log(e.currentTarget);
 
     if (e.currentTarget.name === country.name.common) {
-      console.log("correct");
       e.currentTarget.classList.add("bg-[#60BF88]");
       e.currentTarget.classList.replace(
         "hover:bg-[#F9A826]",
         "hover:bg-[#60BF88]"
       );
-      setCount(() => count++);
+      setCount(count + 1);
     } else {
-      console.log("incorrect");
       e.currentTarget.classList.add("bg-[#EA8282]");
       e.currentTarget.classList.replace(
         "hover:bg-[#F9A826]",

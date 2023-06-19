@@ -47,15 +47,13 @@ export const FlagsQuiz = ({
     e.currentTarget.classList.add("border-white");
 
     if (e.currentTarget.name === correctCountry) {
-      console.log("correct");
       e.currentTarget.classList.add("bg-[#60BF88]");
       e.currentTarget.classList.replace(
         "hover:bg-[#F9A826]",
         "hover:bg-[#60BF88]"
       );
-      setCount(() => count++);
+      setCount(count + 1);
     } else {
-      console.log("incorrect");
       e.currentTarget.classList.add("bg-[#EA8282]");
       e.currentTarget.classList.replace(
         "hover:bg-[#F9A826]",
