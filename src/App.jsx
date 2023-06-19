@@ -7,6 +7,8 @@ function App() {
   const [homeScreen, setHomeScreen] = useState(true);
   const [capitalsScreen, setCapitalsScreen] = useState(false);
   const [flagsScreen, setFlagsScreen] = useState(false);
+  const [nextQuestion, setNextQuestion] = useState(false);
+  const [optionSelected, setOptionSelected] = useState(false);
 
   return (
     <div className="container w-4/5 m-auto">
@@ -17,8 +19,22 @@ function App() {
           setFlagsScreen={setFlagsScreen}
         />
       )}
-      {capitalsScreen && <CapitalsQuiz />}
-      {flagsScreen && <FlagsQuiz />}
+      {capitalsScreen && (
+        <CapitalsQuiz
+          nextQuestion={nextQuestion}
+          setNextQuestion={setNextQuestion}
+          optionSelected={optionSelected}
+          setOptionSelected={setOptionSelected}
+        />
+      )}
+      {flagsScreen && (
+        <FlagsQuiz
+          nextQuestion={nextQuestion}
+          setNextQuestion={setNextQuestion}
+          optionSelected={optionSelected}
+          setOptionSelected={setOptionSelected}
+        />
+      )}
     </div>
   );
 }

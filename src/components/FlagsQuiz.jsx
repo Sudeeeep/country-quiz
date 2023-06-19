@@ -1,13 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import quizLogo from "../assets/undraw_adventure_4hum 1.svg";
 import axios from "axios";
 import { shuffleOptions } from "../helpers/shuffleOptions";
+import propTypes from "prop-types";
 
-export const FlagsQuiz = () => {
+export const FlagsQuiz = ({
+  nextQuestion,
+  setNextQuestion,
+  optionSelected,
+  setOptionSelected,
+}) => {
   const [countries, setCountries] = useState([]);
+  const [correctCountry, setCorrectCountry] = useState("");
   const [flag, setFlag] = useState("");
 
   const optionAlphabets = ["A", "B", "C", "D"];
+
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     axios
@@ -18,10 +27,52 @@ export const FlagsQuiz = () => {
           randomOptions.push(data[Math.floor(Math.random() * 250)].name.common);
         }
         const random = Math.floor(Math.random() * 250);
-        setCountries(countries.concat(data[random].name.common, randomOptions));
+        randomOptions.push(data[random].name.common);
+        setCorrectCountry(data[random].name.common);
+        setCountries(countries.concat(shuffleOptions(randomOptions)));
         setFlag(data[random].flags.png);
+        setOptionSelected(false);
       });
-  }, []);
+  }, [nextQuestion]);
+
+  const handleClick = (e) => {
+    setOptionSelected(true);
+    e.currentTarget.classList.add("text-white");
+    e.currentTarget.classList.add("border-white");
+
+    if (e.currentTarget.name === correctCountry) {
+      console.log("correct");
+      e.currentTarget.classList.add("bg-[#60BF88]");
+      e.currentTarget.classList.replace(
+        "hover:bg-[#F9A826]",
+        "hover:bg-[#60BF88]"
+      );
+    } else {
+      console.log("incorrect");
+      e.currentTarget.classList.add("bg-[#EA8282]");
+      e.currentTarget.classList.replace(
+        "hover:bg-[#F9A826]",
+        "hover:bg-[#EA8282]"
+      );
+
+      buttonRef.current.children[correctCountry].classList.add("border-white");
+      buttonRef.current.children[correctCountry].classList.add("text-white");
+      buttonRef.current.children[correctCountry].classList.add("bg-[#60BF88]");
+      buttonRef.current.children[correctCountry].classList.replace(
+        "hover:bg-[#F9A826]",
+        "hover:bg-[#60BF88]"
+      );
+    }
+  };
+
+  const handleNextQuestion = () => {
+    setNextQuestion(true);
+    setCountries([]);
+    setFlag();
+    if (nextQuestion === true) {
+      setNextQuestion(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2 relative max-w-md m-auto mt-10 pt-10">
@@ -41,24 +92,38 @@ export const FlagsQuiz = () => {
           <p className="text-[#2F527B] pt-3 font-bold  sm:text-lg">
             Which country does this flag belong to?
           </p>
-          {shuffleOptions(countries).map((country, index) => (
-            <button
-              key={index}
-              className="border-2 border-[#6066D0] text-[#6066D0] font-medium px-2 py-1 rounded-lg transition hover:bg-[#F9A826] hover:border-white hover:text-white"
-            >
-              <div className="flex gap-10 items-center">
+          <div className="flex flex-col gap-4" ref={buttonRef}>
+            {countries.map((option, index) => (
+              <button
+                name={option}
+                key={index}
+                className="flex gap-10 items-center border-2 border-[#6066D0] text-[#6066D0] font-medium px-2 py-1 rounded-lg transition hover:bg-[#F9A826] hover:border-white hover:text-white"
+                onClick={!optionSelected ? handleClick : null}
+              >
                 <span className="sm:text-lg">{optionAlphabets[index]}</span>
-                <span className="sm:text-md font-bold">{country}</span>
-              </div>
-            </button>
-          ))}
+                <span className="sm:text-md font-bold">{option}</span>
+              </button>
+            ))}
+          </div>
           <div className="self-end">
-            <button className="bg-[#F9A826] text-[#F2F2F2] px-6 py-2 rounded-lg transition hover:scale-[1.02]">
-              Next
-            </button>
+            {optionSelected && (
+              <button
+                className="bg-[#F9A826] text-[#F2F2F2] px-6 py-2 rounded-lg transition hover:scale-[1.02]"
+                onClick={handleNextQuestion}
+              >
+                Next
+              </button>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+FlagsQuiz.propTypes = {
+  nextQuestion: propTypes.bool,
+  setNextQuestion: propTypes.func,
+  optionSelected: propTypes.bool,
+  setOptionSelected: propTypes.func,
 };
