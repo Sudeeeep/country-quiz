@@ -1,3 +1,4 @@
+import { useState } from "react";
 import resultLogo from "../assets/undraw_winners_ao2o 2.svg";
 import propTypes from "prop-types";
 
@@ -8,8 +9,29 @@ export const Result = ({
   setCount,
   setGameOver,
 }) => {
+  const [resultLoading, setResultLoading] = useState(true);
+
+  setTimeout(() => {
+    setResultLoading(false);
+  }, 300);
+
+  if (resultLoading) {
+    return (
+      <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
+        <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
+          COUNTRY QUIZ
+        </h1>
+        <div className="bg-white p-6 rounded-2xl">
+          <h1 className="text-[#2F527B] pt-3 font-bold sm:pt-6 sm:text-lg text-center">
+            LOADING...
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col gap-2 relative max-w-md m-auto mt-10 pt-10">
+    <div className="flex flex-col gap-2 mt-40 relative max-w-md m-auto sm:mt-10 pt-10">
       <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
         COUNTRY QUIZ
       </h1>
