@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import quizLogo from "../assets/undraw_adventure_4hum 1.svg";
-import axios from "axios";
-import { shuffleOptions } from "../helpers/shuffleOptions";
 import propTypes from "prop-types";
+import { useFetchQuizData } from "../hooks/useFetchQuizData";
 
 export const CapitalsQuiz = ({
   nextQuestion,
@@ -16,38 +15,19 @@ export const CapitalsQuiz = ({
   setGameOver,
   setCapitalsScreen,
 }) => {
-  const [country, setCountry] = useState(null);
-  const [options, setOptions] = useState([]);
+  const { options, capital, correctAnswer, loading, setOptions } =
+    useFetchQuizData(nextQuestion);
 
   const buttonRef = useRef(null);
 
   const optionAlphabets = ["A", "B", "C", "D"];
-
-  useEffect(() => {
-    axios
-      .get("https://restcountries.com/v3.1/all?fields=name,capital")
-      .then(({ data }) => {
-        let randomOptions = [];
-        for (let i = 0; i < 3; i++) {
-          randomOptions.push(data[Math.floor(Math.random() * 250)].name.common);
-        }
-        const random = Math.floor(Math.random() * 250);
-        randomOptions.push(data[random].name.common);
-        setOptions(options.concat(shuffleOptions(randomOptions)));
-        setCountry(data[random]);
-        setOptionSelected(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [nextQuestion]);
 
   const handleClick = (e) => {
     setOptionSelected(true);
     e.currentTarget.classList.add("text-white");
     e.currentTarget.classList.add("border-white");
 
-    if (e.currentTarget.name === country.name.common) {
+    if (e.currentTarget.name === correctAnswer) {
       e.currentTarget.classList.add("bg-[#60BF88]");
       e.currentTarget.classList.replace(
         "hover:bg-[#F9A826]",
@@ -61,16 +41,10 @@ export const CapitalsQuiz = ({
         "hover:bg-[#EA8282]"
       );
 
-      buttonRef.current.children[country.name.common].classList.add(
-        "border-white"
-      );
-      buttonRef.current.children[country.name.common].classList.add(
-        "text-white"
-      );
-      buttonRef.current.children[country.name.common].classList.add(
-        "bg-[#60BF88]"
-      );
-      buttonRef.current.children[country.name.common].classList.replace(
+      buttonRef.current.children[correctAnswer].classList.add("border-white");
+      buttonRef.current.children[correctAnswer].classList.add("text-white");
+      buttonRef.current.children[correctAnswer].classList.add("bg-[#60BF88]");
+      buttonRef.current.children[correctAnswer].classList.replace(
         "hover:bg-[#F9A826]",
         "hover:bg-[#60BF88]"
       );
@@ -79,18 +53,38 @@ export const CapitalsQuiz = ({
   };
 
   const handleNextQuestion = () => {
+    setOptionSelected(false);
     if (gameOver) {
       setResultScreen(true);
       setCapitalsScreen(false);
     } else {
       setNextQuestion(true);
-      setCountry(null);
       setOptions([]);
       if (nextQuestion === true) {
         setNextQuestion(false);
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
+        <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
+          COUNTRY QUIZ
+        </h1>
+        <div className="bg-white p-6 rounded-2xl">
+          <img
+            src={quizLogo}
+            alt="logo"
+            className="absolute right-0 top-2 w-32 sm:w-fit sm:top-0"
+          />
+          <h1 className="text-[#2F527B] pt-3 font-bold sm:pt-6 sm:text-lg text-center">
+            LOADING...
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
@@ -105,7 +99,7 @@ export const CapitalsQuiz = ({
         />
         <div className="flex flex-col gap-4 justify-center">
           <p className="text-[#2F527B] pt-3 font-bold sm:pt-6 sm:text-lg">
-            {country && country.capital} is the capital of
+            {capital} is the capital of
           </p>
 
           <div className="flex flex-col gap-4" ref={buttonRef}>

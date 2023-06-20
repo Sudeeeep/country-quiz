@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import quizLogo from "../assets/undraw_adventure_4hum 1.svg";
-import axios from "axios";
-import { shuffleOptions } from "../helpers/shuffleOptions";
 import propTypes from "prop-types";
+import { useFetchQuizData } from "../hooks/useFetchQuizData";
 
 export const FlagsQuiz = ({
   nextQuestion,
@@ -16,37 +15,40 @@ export const FlagsQuiz = ({
   setGameOver,
   setFlagsScreen,
 }) => {
-  const [countries, setCountries] = useState([]);
-  const [correctCountry, setCorrectCountry] = useState("");
-  const [flag, setFlag] = useState("");
+  // const [countries, setCountries] = useState([]);
+  // const [correctCountry, setCorrectCountry] = useState("");
+  // const [flag, setFlag] = useState("");
+
+  const { options, correctAnswer, loading, flag, setOptions } =
+    useFetchQuizData(nextQuestion);
 
   const optionAlphabets = ["A", "B", "C", "D"];
 
   const buttonRef = useRef(null);
 
-  useEffect(() => {
-    axios
-      .get("https://restcountries.com/v3.1/all?fields=name,flags")
-      .then(({ data }) => {
-        let randomOptions = [];
-        for (let i = 0; i < 3; i++) {
-          randomOptions.push(data[Math.floor(Math.random() * 250)].name.common);
-        }
-        const random = Math.floor(Math.random() * 250);
-        randomOptions.push(data[random].name.common);
-        setCorrectCountry(data[random].name.common);
-        setCountries(countries.concat(shuffleOptions(randomOptions)));
-        setFlag(data[random].flags.png);
-        setOptionSelected(false);
-      });
-  }, [nextQuestion]);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://restcountries.com/v3.1/all?fields=name,flags")
+  //     .then(({ data }) => {
+  //       let randomOptions = [];
+  //       for (let i = 0; i < 3; i++) {
+  //         randomOptions.push(data[Math.floor(Math.random() * 250)].name.common);
+  //       }
+  //       const random = Math.floor(Math.random() * 250);
+  //       randomOptions.push(data[random].name.common);
+  //       setCorrectCountry(data[random].name.common);
+  //       setCountries(countries.concat(shuffleOptions(randomOptions)));
+  //       setFlag(data[random].flags.png);
+  //       setOptionSelected(false);
+  //     });
+  // }, [nextQuestion]);
 
   const handleClick = (e) => {
     setOptionSelected(true);
     e.currentTarget.classList.add("text-white");
     e.currentTarget.classList.add("border-white");
 
-    if (e.currentTarget.name === correctCountry) {
+    if (e.currentTarget.name === correctAnswer) {
       e.currentTarget.classList.add("bg-[#60BF88]");
       e.currentTarget.classList.replace(
         "hover:bg-[#F9A826]",
@@ -60,10 +62,10 @@ export const FlagsQuiz = ({
         "hover:bg-[#EA8282]"
       );
 
-      buttonRef.current.children[correctCountry].classList.add("border-white");
-      buttonRef.current.children[correctCountry].classList.add("text-white");
-      buttonRef.current.children[correctCountry].classList.add("bg-[#60BF88]");
-      buttonRef.current.children[correctCountry].classList.replace(
+      buttonRef.current.children[correctAnswer].classList.add("border-white");
+      buttonRef.current.children[correctAnswer].classList.add("text-white");
+      buttonRef.current.children[correctAnswer].classList.add("bg-[#60BF88]");
+      buttonRef.current.children[correctAnswer].classList.replace(
         "hover:bg-[#F9A826]",
         "hover:bg-[#60BF88]"
       );
@@ -72,18 +74,38 @@ export const FlagsQuiz = ({
   };
 
   const handleNextQuestion = () => {
+    setOptionSelected(false);
     if (gameOver) {
       setResultScreen(true);
       setFlagsScreen(false);
     } else {
       setNextQuestion(true);
-      setCountries([]);
-      setFlag();
+      setOptions([]);
       if (nextQuestion === true) {
         setNextQuestion(false);
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
+        <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
+          COUNTRY QUIZ
+        </h1>
+        <div className="bg-white p-6 rounded-2xl">
+          <img
+            src={quizLogo}
+            alt="logo"
+            className="absolute right-0 top-2 w-32 sm:w-fit sm:top-0"
+          />
+          <h1 className="text-[#2F527B] pt-3 font-bold sm:pt-6 sm:text-lg text-center">
+            LOADING...
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
@@ -104,7 +126,7 @@ export const FlagsQuiz = ({
             Which country does this flag belong to?
           </p>
           <div className="flex flex-col gap-4" ref={buttonRef}>
-            {countries.map((option, index) => (
+            {options.map((option, index) => (
               <button
                 name={option}
                 key={index}
