@@ -75,4 +75,4 @@ $ npm run dev
 
 ## Contact
 
-- GitHub [@your-username](https://github.com/Sudeeeep)
+- GitHub [@Sudeeeep](https://github.com/Sudeeeep)
