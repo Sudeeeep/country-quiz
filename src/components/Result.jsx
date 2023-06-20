@@ -17,7 +17,7 @@ export const Result = ({
 
   if (resultLoading) {
     return (
-      <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
+      <div className="flex flex-col mt-28 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
         <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
           COUNTRY QUIZ
         </h1>
@@ -31,7 +31,7 @@ export const Result = ({
   }
 
   return (
-    <div className="flex flex-col gap-2 mt-40 relative max-w-md m-auto sm:mt-10 pt-10">
+    <div className="flex flex-col gap-2 mt-28 relative max-w-md m-auto sm:mt-10 pt-10">
       <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
         COUNTRY QUIZ
       </h1>

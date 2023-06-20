@@ -72,7 +72,7 @@ export const Quiz = ({
 
   if (loading) {
     return (
-      <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
+      <div className="flex flex-col mt-28 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
         <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
           COUNTRY QUIZ
         </h1>
@@ -91,7 +91,7 @@ export const Quiz = ({
   }
 
   return (
-    <div className="flex flex-col mt-40 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
+    <div className="flex flex-col mt-28 gap-2 relative max-w-md m-auto pt-10 sm:mt-10">
       <h1 className="text-xl font-bold text-[#F2F2F2] sm:text-4xl">
         COUNTRY QUIZ
       </h1>
