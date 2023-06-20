@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Home } from "./components/Home";
-import { CapitalsQuiz } from "./components/CapitalsQuiz";
-import { FlagsQuiz } from "./components/FlagsQuiz";
 import { Result } from "./components/Result";
+import { Quiz } from "./components/Quiz";
 
 function App() {
   const [homeScreen, setHomeScreen] = useState(true);
@@ -23,8 +22,9 @@ function App() {
           setFlagsScreen={setFlagsScreen}
         />
       )}
-      {capitalsScreen && (
-        <CapitalsQuiz
+
+      {(capitalsScreen || flagsScreen) && (
+        <Quiz
           nextQuestion={nextQuestion}
           setNextQuestion={setNextQuestion}
           optionSelected={optionSelected}
@@ -34,20 +34,9 @@ function App() {
           count={count}
           setCount={setCount}
           setResultScreen={setResultScreen}
+          capitalsScreen={capitalsScreen}
           setCapitalsScreen={setCapitalsScreen}
-        />
-      )}
-      {flagsScreen && (
-        <FlagsQuiz
-          nextQuestion={nextQuestion}
-          setNextQuestion={setNextQuestion}
-          optionSelected={optionSelected}
-          setOptionSelected={setOptionSelected}
-          gameOver={gameOver}
-          setGameOver={setGameOver}
-          count={count}
-          setCount={setCount}
-          setResultScreen={setResultScreen}
+          flagsScreen={flagsScreen}
           setFlagsScreen={setFlagsScreen}
         />
       )}

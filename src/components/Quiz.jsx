@@ -3,7 +3,7 @@ import quizLogo from "../assets/undraw_adventure_4hum 1.svg";
 import propTypes from "prop-types";
 import { useFetchQuizData } from "../hooks/useFetchQuizData";
 
-export const FlagsQuiz = ({
+export const Quiz = ({
   nextQuestion,
   setNextQuestion,
   optionSelected,
@@ -13,35 +13,17 @@ export const FlagsQuiz = ({
   setResultScreen,
   gameOver,
   setGameOver,
+  capitalsScreen,
+  setCapitalsScreen,
+  flagsScreen,
   setFlagsScreen,
 }) => {
-  // const [countries, setCountries] = useState([]);
-  // const [correctCountry, setCorrectCountry] = useState("");
-  // const [flag, setFlag] = useState("");
-
-  const { options, correctAnswer, loading, flag, setOptions } =
+  const { options, capital, correctAnswer, loading, flag, setOptions } =
     useFetchQuizData(nextQuestion);
-
-  const optionAlphabets = ["A", "B", "C", "D"];
 
   const buttonRef = useRef(null);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://restcountries.com/v3.1/all?fields=name,flags")
-  //     .then(({ data }) => {
-  //       let randomOptions = [];
-  //       for (let i = 0; i < 3; i++) {
-  //         randomOptions.push(data[Math.floor(Math.random() * 250)].name.common);
-  //       }
-  //       const random = Math.floor(Math.random() * 250);
-  //       randomOptions.push(data[random].name.common);
-  //       setCorrectCountry(data[random].name.common);
-  //       setCountries(countries.concat(shuffleOptions(randomOptions)));
-  //       setFlag(data[random].flags.png);
-  //       setOptionSelected(false);
-  //     });
-  // }, [nextQuestion]);
+  const optionAlphabets = ["A", "B", "C", "D"];
 
   const handleClick = (e) => {
     setOptionSelected(true);
@@ -77,6 +59,7 @@ export const FlagsQuiz = ({
     setOptionSelected(false);
     if (gameOver) {
       setResultScreen(true);
+      setCapitalsScreen(false);
       setFlagsScreen(false);
     } else {
       setNextQuestion(true);
@@ -119,12 +102,23 @@ export const FlagsQuiz = ({
           className="absolute right-0 top-2 w-32 sm:w-fit sm:top-0"
         />
         <div className="flex flex-col gap-4 justify-center">
-          <div>
-            <img className="w-20 sm:w-24 sm:h-16" src={flag} alt="flag" />
-          </div>
-          <p className="text-[#2F527B] pt-3 font-bold  sm:text-lg">
-            Which country does this flag belong to?
-          </p>
+          {capitalsScreen && (
+            <p className="text-[#2F527B] pt-3 font-bold sm:pt-6 sm:text-lg">
+              {capital} is the capital of
+            </p>
+          )}
+
+          {flagsScreen && (
+            <div>
+              <div>
+                <img className="w-20 sm:w-24 sm:h-16" src={flag} alt="flag" />
+              </div>
+              <p className="text-[#2F527B] pt-3 font-bold  sm:text-lg">
+                Which country does this flag belong to?
+              </p>
+            </div>
+          )}
+
           <div className="flex flex-col gap-4" ref={buttonRef}>
             {options.map((option, index) => (
               <button
@@ -138,6 +132,7 @@ export const FlagsQuiz = ({
               </button>
             ))}
           </div>
+
           <div className="self-end">
             {optionSelected && (
               <button
@@ -154,7 +149,7 @@ export const FlagsQuiz = ({
   );
 };
 
-FlagsQuiz.propTypes = {
+Quiz.propTypes = {
   nextQuestion: propTypes.bool,
   setNextQuestion: propTypes.func,
   optionSelected: propTypes.bool,
@@ -164,5 +159,8 @@ FlagsQuiz.propTypes = {
   setResultScreen: propTypes.func,
   gameOver: propTypes.bool,
   setGameOver: propTypes.func,
+  capitalsScreen: propTypes.bool,
+  setCapitalsScreen: propTypes.func,
+  flagsScreen: propTypes.bool,
   setFlagsScreen: propTypes.func,
 };

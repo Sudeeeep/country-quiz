@@ -29,7 +29,9 @@ export const useFetchQuizData = (nextQuestion) => {
         console.log(err);
       })
       .finally(() => {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       });
   }, [nextQuestion]);
 
@@ -39,9 +41,6 @@ export const useFetchQuizData = (nextQuestion) => {
     correctAnswer,
     flag,
     loading,
-    setCorrectAnswer,
     setOptions,
-    setCapital,
-    setFlag,
   };
 };
