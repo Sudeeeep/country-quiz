@@ -1,26 +1,6 @@
-<!-- Please update value in the {}  -->
 
 <h1 align="center">Country Quiz App</h1>
 
-<div align="center">
-   Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
-</div>
-
-<div align="center">
-  <h3>
-    <a href="https://country-quiz-bay.vercel.app/">
-      Demo
-    </a>
-    <span> | </span>
-    <a href="https://devchallenges.io/solutions/aDPW7vu17bPs4GmlYunT">
-      Solution
-    </a>
-    <span> | </span>
-    <a href="https://devchallenges.io/challenges/Bu3G2irnaXmfwQ8sZkw8">
-      Challenge
-    </a>
-  </h3>
-</div>
 
 <!-- TABLE OF CONTENTS -->
 
@@ -31,7 +11,6 @@
 - [Features](#features)
 - [How to use](#how-to-use)
 - [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
 
 <!-- OVERVIEW -->
 
@@ -53,7 +32,11 @@
 
 <!-- List the features of your application or follow the template. Don't share the figma file here :) -->
 
-This application/site was created as a submission to a [DevChallenges](https://devchallenges.io/challenges) challenge. The [challenge](https://devchallenges.io/challenges/Bu3G2irnaXmfwQ8sZkw8) was to build an application to complete the given user stories.
+- A quiz App built with React.js.
+- Uses [RESTCOUNTRIES](https://restcountries.com/) API to fetch details.
+- User can select between two types of quiz.
+- If user selects the right answer, next question is generated.
+- If User selects the incorrect answer - game over and user can see their total score.
 
 ## How To Use
 
@@ -63,7 +46,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/your-user-name/your-project-name
+$ git clone https://github.com/Sudeeeep/country-quiz
 
 # Install dependencies
 $ npm install
@@ -76,3 +59,4 @@ $ npm run dev
 ## Contact
 
 - GitHub [@Sudeeeep](https://github.com/Sudeeeep)
+- Linkedin [@Sudeep Nair](https://www.linkedin.com/in/sudeep-nair-1295a8201)
